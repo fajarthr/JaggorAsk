@@ -3,403 +3,480 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JaggorAsk</title>
+  <title>JaggorAsk • by PajarGuard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:"Poppins",sans-serif;
+    :root{
+      --bg:#0b1020;
+      --panel:rgba(255,255,255,.08);
+      --panel-2:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.12);
+      --text:#eef3ff;
+      --muted:#b8c0e6;
+      --accent1:#7c5cff;
+      --accent2:#42d9ff;
+      --shadow:0 20px 50px rgba(0,0,0,.25);
     }
-
-    body{
-      background:#0b1020;
-      color:white;
-      overflow-x:hidden;
-      min-height:100vh;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Poppins,sans-serif;background:var(--bg);color:var(--text)}
+    body::before, body::after{
+      content:"";position:fixed;width:420px;height:420px;border-radius:50%;
+      filter:blur(70px);z-index:-1;animation:float 10s ease-in-out infinite;
     }
-
-    /* Animated background */
-    body::before,
-    body::after{
-      content:"";
-      position:fixed;
-      width:420px;
-      height:420px;
-      border-radius:50%;
-      filter:blur(70px);
-      z-index:-1;
-      animation:float 10s ease-in-out infinite;
-    }
-
-    body::before{
-      background:#6d5dfc;
-      top:-120px;
-      left:-120px;
-    }
-
-    body::after{
-      background:#00d4ff;
-      bottom:-140px;
-      right:-140px;
-      animation-delay:3s;
-    }
-
+    body::before{background:#6d5dfc;top:-120px;left:-120px}
+    body::after{background:#00d4ff;bottom:-140px;right:-140px;animation-delay:3s}
     @keyframes float{
-      0%,100%{transform:translateY(0) translateX(0);}
-      50%{transform:translateY(30px) translateX(-20px);}
+      0%,100%{transform:translateY(0) translateX(0)}
+      50%{transform:translateY(30px) translateX(-20px)}
     }
 
-    nav{
-      position:sticky;
-      top:0;
-      backdrop-filter:blur(14px);
+    .topbar{
+      position:sticky;top:0;z-index:20;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 22px;
+      backdrop-filter:blur(18px);
       background:rgba(10,15,30,.55);
-      border-bottom:1px solid rgba(255,255,255,.08);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:18px 8%;
-      z-index:100;
+      border-bottom:1px solid var(--border);
+    }
+    .brand{font-weight:800;font-size:1.4rem;background:linear-gradient(90deg,#9b8cff,#6be8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .top-actions{display:flex;gap:10px;align-items:center}
+    .btn{
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
+      padding:10px 14px;border-radius:14px;cursor:pointer;
+      transition:.25s;backdrop-filter:blur(12px)
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--accent1),var(--accent2));
+      border:none;
     }
 
-    .logo{
-      font-size:1.8rem;
-      font-weight:700;
-      letter-spacing:.5px;
-      background:linear-gradient(90deg,#8b7cff,#5be7ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+    .layout{
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:22px;
+      padding:22px;
+      max-width:1400px;
+      margin:0 auto;
     }
 
-    .nav-links{
-      display:flex;
-      gap:18px;
-      align-items:center;
+    .sidebar{
+      position:sticky;top:88px;height:fit-content;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      backdrop-filter:blur(16px);
     }
+    .side-title{font-size:.85rem;color:var(--muted);margin:6px 8px 12px}
+    .nav-item{
+      display:flex;align-items:center;gap:12px;
+      padding:12px 14px;border-radius:16px;
+      color:var(--text);text-decoration:none;
+      transition:.2s;
+    }
+    .nav-item:hover{background:rgba(255,255,255,.08)}
+    .nav-item.active{background:rgba(124,92,255,.18);border:1px solid rgba(124,92,255,.25)}
 
-    .nav-links a{
-      color:#d6dcff;
-      text-decoration:none;
-      font-size:.95rem;
-      transition:.25s;
-    }
-
-    .nav-links a:hover{
-      color:white;
-      transform:translateY(-1px);
-    }
+    .content{display:flex;flex-direction:column;gap:20px}
 
     .hero{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:90px 8% 60px;
-      animation:fadeUp 1s ease;
+      background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(66,217,255,.12));
+      border:1px solid var(--border);
+      border-radius:28px;
+      padding:28px;
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+      animation:fadeUp .6s ease;
     }
-
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 14px;
+      display:inline-block;
+      padding:8px 12px;
       border-radius:999px;
       background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      color:#d6dcff;
-      margin-bottom:22px;
-      font-size:.9rem;
+      border:1px solid var(--border);
+      color:var(--muted);
+      font-size:.85rem;
+      margin-bottom:14px;
     }
+    .hero h1{margin:0 0 10px;font-size:clamp(2rem,4vw,3.5rem);line-height:1.05}
+    .hero p{margin:0;color:var(--muted);max-width:760px;line-height:1.7}
 
-    .hero h1{
-      font-size:clamp(2.5rem,6vw,4.5rem);
-      line-height:1.05;
-      margin-bottom:18px;
-      background:linear-gradient(90deg,#ffffff,#c9d3ff,#8be9ff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .hero p{
-      color:#b8c0e6;
-      max-width:760px;
-      font-size:1.08rem;
-      line-height:1.8;
-      margin-bottom:34px;
-    }
-
-    .search-box{
-      width:min(760px,100%);
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
+    .composer{
+      display:flex;gap:12px;align-items:center;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:14px;
       backdrop-filter:blur(16px);
-      border-radius:20px;
-      padding:16px;
-      display:flex;
-      gap:12px;
-      box-shadow:0 20px 50px rgba(0,0,0,.25);
-      transition:.25s;
     }
-
-    .search-box:hover{
-      transform:translateY(-2px);
-      border-color:rgba(255,255,255,.2);
+    .avatar{
+      width:46px;height:46px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      display:grid;place-items:center;font-weight:700;
+      flex:0 0 auto;
     }
-
-    .search-box input{
-      flex:1;
-      background:transparent;
-      border:none;
-      outline:none;
-      color:white;
+    .composer input{
+      flex:1;border:none;outline:none;
+      background:transparent;color:var(--text);
       font-size:1rem;
     }
+    .composer input::placeholder{color:#9aa4cf}
 
-    .search-box input::placeholder{
-      color:#9aa4cf;
-    }
-
-    .search-box button{
-      border:none;
-      background:linear-gradient(90deg,#7c5cff,#42d9ff);
-      color:white;
-      padding:12px 18px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:600;
-      transition:.25s;
-    }
-
-    .search-box button:hover{
-      transform:scale(1.05);
-      box-shadow:0 10px 30px rgba(109,93,252,.35);
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-      width:min(900px,100%);
-      margin:42px auto 0;
-    }
-
-    .stat{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      backdrop-filter:blur(16px);
-      border-radius:22px;
-      padding:24px;
-      transition:.3s;
-    }
-
-    .stat:hover{
-      transform:translateY(-8px);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:0 20px 40px rgba(0,0,0,.22);
-    }
-
-    .stat h3{
-      font-size:2rem;
-      margin-bottom:8px;
-    }
-
-    .stat p{
-      color:#b8c0e6;
-      line-height:1.6;
-    }
-
-    .section{
-      padding:70px 8%;
-    }
-
-    .section h2{
-      text-align:center;
-      font-size:2rem;
-      margin-bottom:30px;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-      gap:22px;
+    .feed{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
     }
 
     .card{
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      backdrop-filter:blur(16px);
+      background:var(--panel);
+      border:1px solid var(--border);
       border-radius:24px;
-      padding:24px;
-      transition:.35s;
+      padding:18px;
+      backdrop-filter:blur(16px);
+      transition:.25s;
+      animation:fadeUp .5s ease;
     }
-
     .card:hover{
-      transform:translateY(-10px) rotate(-.5deg);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:0 25px 50px rgba(0,0,0,.25);
+      transform:translateY(-4px);
+      box-shadow:var(--shadow);
+      border-color:rgba(255,255,255,.18);
     }
 
-    .icon{
-      width:52px;
-      height:52px;
-      border-radius:16px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(135deg,#7c5cff,#42d9ff);
-      margin-bottom:16px;
-      font-size:1.3rem;
+    .card-head{
+      display:flex;align-items:center;gap:12px;margin-bottom:12px;
+    }
+    .avatar.sm{width:38px;height:38px;font-size:.9rem}
+    .meta{display:flex;flex-direction:column}
+    .meta b{font-size:.98rem}
+    .meta span{font-size:.82rem;color:var(--muted)}
+
+    .question{
+      font-size:1.18rem;
+      font-weight:700;
+      margin:8px 0 10px;
+    }
+    .answer{
+      color:var(--muted);
+      line-height:1.8;
+      margin-bottom:14px;
     }
 
-    .card h3{
-      margin-bottom:10px;
-      font-size:1.15rem;
+    .actions{
+      display:flex;gap:10px;flex-wrap:wrap;
+    }
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:var(--panel-2);
+      border:1px solid var(--border);
+      color:var(--text);
+      cursor:pointer;
+      transition:.2s;
+    }
+    .chip:hover{transform:translateY(-2px)}
+    .chip.liked{
+      background:rgba(124,92,255,.18);
+      border-color:rgba(124,92,255,.28);
     }
 
-    .card p{
-      color:#b8c0e6;
+    .right-note{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:18px;
+      color:var(--muted);
       line-height:1.7;
     }
 
     footer{
-      padding:34px 8%;
       text-align:center;
-      color:#8d97c4;
-      border-top:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(10px);
+      color:#95a0cf;
+      padding:34px 22px 50px;
+    }
+
+    .toast{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      background:rgba(20,26,46,.92);
+      color:var(--text);
+      border:1px solid var(--border);
+      padding:14px 16px;
+      border-radius:16px;
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+      opacity:0;
+      transform:translateY(16px);
+      pointer-events:none;
+      transition:.25s;
+      z-index:40;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .modal{
+      position:fixed;inset:0;
+      background:rgba(5,8,16,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:50;
+    }
+    .modal.show{display:flex}
+    .modal-card{
+      width:min(420px,92vw);
+      background:rgba(16,22,40,.92);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:22px;
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+      animation:fadeUp .25s ease;
+    }
+    .modal-card h3{margin:0 0 8px}
+    .modal-card p{margin:0 0 16px;color:var(--muted)}
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:14px;
+    }
+    .field input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      outline:none;
+    }
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:8px;
     }
 
     @keyframes fadeUp{
-      from{
-        opacity:0;
-        transform:translateY(24px);
-      }
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      from{opacity:0;transform:translateY(18px)}
+      to{opacity:1;transform:translateY(0)}
     }
 
-    @media (max-width:700px){
-      nav{
-        padding:16px 5%;
-      }
-
-      .nav-links{
-        display:none;
-      }
-
-      .hero{
-        padding:70px 5% 50px;
-      }
-
-      .search-box{
-        flex-direction:column;
-      }
-
-      .search-box button{
-        width:100%;
-      }
-
-      .stats{
-        grid-template-columns:1fr;
-      }
-
-      .section{
-        padding:60px 5%;
-      }
+    @media (max-width:980px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:relative;top:0}
     }
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">JaggorAsk</div>
+    <div class="top-actions">
+      <button class="btn" id="themeBtn">🌙 Dark</button>
+      <button class="btn primary" id="loginBtn">Login</button>
+    </div>
+  </header>
 
-<nav>
-  <div class="logo">JaggorAsk</div>
-  <div class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">Explore</a>
-    <a href="#">Community</a>
-    <a href="#">About</a>
+  <main class="layout">
+    <aside class="sidebar">
+      <div class="side-title">Menu</div>
+      <a class="nav-item active" href="#">🏠 Home</a>
+      <a class="nav-item" href="#">🔥 Trending</a>
+      <a class="nav-item" href="#">💬 Community</a>
+      <a class="nav-item" href="#">🤖 AI Answers</a>
+      <a class="nav-item" href="#">📚 Categories</a>
+      <a class="nav-item" href="#">⚙️ Settings</a>
+    </aside>
+
+    <section class="content">
+      <section class="hero">
+        <div class="badge">Liquid Glass • Startup UI • AI-ready</div>
+        <h1>Tanya apa saja. Temukan jawaban terbaik.</h1>
+        <p>JaggorAsk adalah tempat untuk bertanya, berdiskusi, dan menemukan solusi dengan pengalaman modern, cepat, dan nyaman. Tampilan premium ini dibuat untuk GitHub Pages dan siap dikembangkan menjadi aplikasi penuh.</p>
+      </section>
+
+      <div class="composer">
+        <div class="avatar">P</div>
+        <input id="questionInput" type="text" placeholder="Apa yang ingin kamu tanyakan hari ini?" />
+        <button class="btn primary" id="postBtn">Posting</button>
+      </div>
+
+      <div class="feed" id="feed">
+        <article class="card">
+          <div class="card-head">
+            <div class="avatar sm">F</div>
+            <div class="meta">
+              <b>Fajar Sodik</b>
+              <span>Baru saja • Teknologi</span>
+            </div>
+          </div>
+          <div class="question">Bagaimana cara membuat website AI tanpa server?</div>
+          <div class="answer">Gunakan GitHub Pages untuk hosting gratis dan hubungkan antarmuka dengan layanan AI melalui API. Untuk penyimpanan data, backend gratis seperti Firebase atau Supabase bisa ditambahkan tanpa menyewa server tradisional.</div>
+          <div class="actions">
+            <button class="chip like">👍 <span>128</span></button>
+            <button class="chip">💬 32</button>
+            <button class="chip">🔖 Simpan</button>
+            <button class="chip">↗ Bagikan</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="avatar sm">P</div>
+            <div class="meta">
+              <b>PajarGuard</b>
+              <span>Developer • Official</span>
+            </div>
+          </div>
+          <div class="question">Selamat datang di JaggorAsk by PajarGuard</div>
+          <div class="answer">Versi ini menggunakan tema Liquid Glass dengan animasi halus, kartu interaktif, dark mode, modal login, toast notification, dan feed dinamis. Tahap berikutnya adalah menghubungkan login, database, dan AI agar semua fitur benar-benar berjalan.</div>
+          <div class="actions">
+            <button class="chip like">👍 <span>999</span></button>
+            <button class="chip">💬 120</button>
+            <button class="chip">🔖 Simpan</button>
+            <button class="chip">↗ Bagikan</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="right-note">
+        <b>Status proyek:</b> Frontend premium selesai. Selanjutnya kita bisa menambahkan login Google, database, komentar real-time, AI answers, trending topics, dan profil pengguna menggunakan Firebase atau Supabase secara gratis.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 JaggorAsk • Developed by <b>PajarGuard</b>
+  </footer>
+
+  <div class="toast" id="toast">Berhasil!</div>
+
+  <div class="modal" id="loginModal">
+    <div class="modal-card">
+      <h3>Masuk ke JaggorAsk</h3>
+      <p>Ini adalah demo UI. Login asli akan kita aktifkan pada versi backend.</p>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="nama@email.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="closeModal">Tutup</button>
+        <button class="btn primary" id="submitLogin">Masuk</button>
+      </div>
+    </div>
   </div>
-</nav>
 
-<section class="hero">
-  <div class="badge">AI-powered community • Modern UI</div>
-  <h1>Tanya apa saja.<br>Temukan jawaban terbaik.</h1>
-  <p>
-    JaggorAsk adalah tempat untuk bertanya, berdiskusi, dan menemukan solusi dengan pengalaman yang cepat,
-    modern, dan nyaman di semua perangkat.
-  </p>
+  <script>
+    const toast = document.getElementById('toast');
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(()=> toast.classList.remove('show'), 1800);
+    }
 
-  <div class="search-box">
-    <input type="text" placeholder="Contoh: Bagaimana cara membuat website dengan AI?">
-    <button onclick="showMessage()">Tanya Sekarang</button>
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <h3>10K+</h3>
-      <p>Pertanyaan telah dibahas oleh komunitas.</p>
-    </div>
-    <div class="stat">
-      <h3>2.5K+</h3>
-      <p>Jawaban berkualitas dari berbagai topik.</p>
-    </div>
-    <div class="stat">
-      <h3>99%</h3>
-      <p>Tampilan responsif dan pengalaman yang halus.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Mengapa memilih JaggorAsk?</h2>
-
-  <div class="cards">
-    <div class="card">
-      <div class="icon">💬</div>
-      <h3>Diskusi Interaktif</h3>
-      <p>Ajukan pertanyaan dan dapatkan jawaban yang mudah dipahami dengan antarmuka yang bersih.</p>
-    </div>
-
-    <div class="card">
-      <div class="icon">⚡</div>
-      <h3>Super Cepat</h3>
-      <p>Dibangun dengan HTML, CSS, dan JavaScript sehingga ringan dan responsif di perangkat apa pun.</p>
-    </div>
-
-    <div class="card">
-      <div class="icon">✨</div>
-      <h3>Animasi Halus</h3>
-      <p>Efek hover, floating background, dan transisi lembut memberikan kesan premium.</p>
-    </div>
-  </div>
-</section>
-
-<footer>
-  © 2026 JaggorAsk — Dibuat dengan GitHub Pages
-</footer>
-
-<script>
-  function showMessage(){
-    alert("Fitur tanya akan kita buat pada tahap berikutnya. Sekarang kita fokus ke tampilan premium JaggorAsk 🚀");
-  }
-
-  document.querySelectorAll('a[href^="#"]').forEach(link=>{
-    link.addEventListener('click',e=>{
-      e.preventDefault();
-      window.scrollTo({
-        top:0,
-        behavior:'smooth'
+    document.querySelectorAll('.like').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const span = btn.querySelector('span');
+        let n = parseInt(span.textContent,10);
+        if(btn.classList.contains('liked')){
+          btn.classList.remove('liked');
+          span.textContent = n - 1;
+          showToast('Like dibatalkan');
+        }else{
+          btn.classList.add('liked');
+          span.textContent = n + 1;
+          showToast('Jawaban disukai');
+        }
       });
     });
-  });
-</script>
 
+    const feed = document.getElementById('feed');
+    const input = document.getElementById('questionInput');
+    document.getElementById('postBtn').addEventListener('click',()=>{
+      const text = input.value.trim();
+      if(!text){
+        showToast('Tulis pertanyaan terlebih dahulu');
+        return;
+      }
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-head">
+          <div class="avatar sm">P</div>
+          <div class="meta">
+            <b>PajarGuard</b>
+            <span>Baru saja • Draft</span>
+          </div>
+        </div>
+        <div class="question">${text}</div>
+        <div class="answer">Ini adalah simulasi posting lokal di browser. Pada versi backend, pertanyaan akan tersimpan ke database dan dapat dilihat oleh semua pengguna.</div>
+        <div class="actions">
+          <button class="chip like">👍 <span>0</span></button>
+          <button class="chip">💬 0</button>
+          <button class="chip">🔖 Simpan</button>
+          <button class="chip">↗ Bagikan</button>
+        </div>
+      `;
+      feed.prepend(card);
+      card.querySelector('.like').addEventListener('click',()=>{
+        const btn = card.querySelector('.like');
+        const span = btn.querySelector('span');
+        let n = parseInt(span.textContent,10);
+        if(btn.classList.contains('liked')){
+          btn.classList.remove('liked');
+          span.textContent = n - 1;
+        }else{
+          btn.classList.add('liked');
+          span.textContent = n + 1;
+        }
+      });
+      input.value = '';
+      showToast('Pertanyaan berhasil diposting (demo)');
+    });
+
+    const modal = document.getElementById('loginModal');
+    document.getElementById('loginBtn').addEventListener('click',()=> modal.classList.add('show'));
+    document.getElementById('closeModal').addEventListener('click',()=> modal.classList.remove('show'));
+    document.getElementById('submitLogin').addEventListener('click',()=>{
+      modal.classList.remove('show');
+      showToast('Login demo berhasil');
+    });
+
+    const themeBtn = document.getElementById('themeBtn');
+    let dark = true;
+    themeBtn.addEventListener('click',()=>{
+      dark = !dark;
+      if(dark){
+        document.documentElement.style.setProperty('--bg','#0b1020');
+        document.documentElement.style.setProperty('--panel','rgba(255,255,255,.08)');
+        document.documentElement.style.setProperty('--panel-2','rgba(255,255,255,.06)');
+        document.documentElement.style.setProperty('--border','rgba(255,255,255,.12)');
+        document.documentElement.style.setProperty('--text','#eef3ff');
+        document.documentElement.style.setProperty('--muted','#b8c0e6');
+        themeBtn.textContent = '🌙 Dark';
+      }else{
+        document.documentElement.style.setProperty('--bg','#eef3ff');
+        document.documentElement.style.setProperty('--panel','rgba(255,255,255,.72)');
+        document.documentElement.style.setProperty('--panel-2','rgba(255,255,255,.6)');
+        document.documentElement.style.setProperty('--border','rgba(20,30,60,.08)');
+        document.documentElement.style.setProperty('--text','#18223d');
+        document.documentElement.style.setProperty('--muted','#526189');
+        themeBtn.textContent = '☀️ Light';
+      }
+    });
+  </script>
 </body>
 </html>
